@@ -1,0 +1,29 @@
+{
+  "name": "ng.cash",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node-dev --transpile-only src/server.ts",
+    "dev": "ts-node-dev --transpile-only src/server.ts",
+    "typeorm": "ts-node-dev node_modules/.bin/typeorm",
+    "migration:generate": "ts-node-dev ./node_modules/.bin/typeorm migration:generate -d src/database/config/ormconfig.ts",
+    "migration:up": "ts-node-dev ./node_modules/.bin/typeorm migration:run -d src/database/config/ormconfig.ts",
+    "migration:down": "ts-node-dev ./node_modules/.bin/typeorm migration:revert -d src/database/config/ormconfig.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "pg": "^8.8.0",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.3.10"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.14",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^4.9.3"
+  }
+}
