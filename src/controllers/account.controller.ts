@@ -3,7 +3,7 @@ import { IAccountService } from "../protocols";
 
 export default class AccountController {
   constructor(private service: IAccountService) {
-    this.service = service
+    this.service = service;
   }
 
   async getAll(req: Request, res: Response, next: NextFunction) {
