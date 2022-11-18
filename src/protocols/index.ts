@@ -11,5 +11,6 @@ export interface IUserRequest {
 }
 
 export interface IUserService {
-  create(user: IUserRequest): Promise<User> 
+  create(user: IUserRequest): Promise<User>,
+  login(user: IUserRequest): Promise<string | null>
 }

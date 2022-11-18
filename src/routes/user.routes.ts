@@ -10,4 +10,8 @@ userRouter.post('/user', userValidate, (req, res, next) => {
   controller.create(req, res, next);
 });
 
+userRouter.post('/login', (req, res, next) => {
+  controller.login(req, res, next);
+})
+
 export default userRouter;

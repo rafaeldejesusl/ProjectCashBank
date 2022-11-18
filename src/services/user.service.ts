@@ -4,6 +4,13 @@ import { Account } from "../entities/Account";
 import { User } from "../entities/User";
 import { IUserService, IUserRequest } from "../protocols";
 import bcrypt from "bcrypt";
+import * as jwt from "jsonwebtoken";
+
+const secret = process.env.JWT_SECRET || 'jwt_secret';
+const jwtConfig = {
+  algorithm: 'HS256',
+  expiresIn: '1d'
+} as jwt.SignOptions;
 
 export default class UserService implements IUserService {
   repositoryAccount: Repository<Account>
@@ -26,5 +33,24 @@ export default class UserService implements IUserService {
     await this.repositoryUser.save(newUser);
 
     return newUser;
+  }
+
+  async login(user: IUserRequest): Promise<string | null> {
+    const { username, password } = user;
+    const storedUser = await this.repositoryUser.find({ where: { username: username } });
+
+    if (storedUser.length === 0) {
+      return null;
+    }
+
+    const myUser = storedUser[0];
+    const check = bcrypt.compareSync(password, myUser.password);
+
+    if (!check) {
+      return null;
+    }
+
+    const token = jwt.sign(user, secret, jwtConfig);
+    return token;
   }
 }
