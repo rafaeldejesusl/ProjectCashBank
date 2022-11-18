@@ -50,7 +50,7 @@ export default class UserService implements IUserService {
       return null;
     }
 
-    const token = jwt.sign(user, secret, jwtConfig);
+    const token = jwt.sign({ username }, secret, jwtConfig);
     return token;
   }
 }
