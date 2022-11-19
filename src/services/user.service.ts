@@ -2,7 +2,7 @@ import { Repository } from "typeorm";
 import connectionSource from "../database";
 import { Account } from "../entities/Account";
 import { User } from "../entities/User";
-import { IUserService, IUserRequest } from "../protocols";
+import { IUserService, IUserRequest, IUserBalance } from "../protocols";
 import bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 
@@ -52,5 +52,16 @@ export default class UserService implements IUserService {
 
     const token = jwt.sign({ username }, secret, jwtConfig);
     return token;
+  }
+
+  async getBalance(username: string): Promise<IUserBalance> {
+    console.log("cheguei aqui ---------->" + username);
+    const user = await this.repositoryUser.find({ where: { username: username } });
+    console.log(user)
+    const account = await this.repositoryAccount.find({ where: { id: user[0].accountId } });
+
+    console.log("---------->" + username);
+
+    return { username, balance: account[0].balance };
   }
 }
