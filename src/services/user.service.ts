@@ -55,12 +55,8 @@ export default class UserService implements IUserService {
   }
 
   async getBalance(username: string): Promise<IUserBalance> {
-    console.log("cheguei aqui ---------->" + username);
     const user = await this.repositoryUser.find({ where: { username: username } });
-    console.log(user)
     const account = await this.repositoryAccount.find({ where: { id: user[0].accountId } });
-
-    console.log("---------->" + username);
 
     return { username, balance: account[0].balance };
   }
