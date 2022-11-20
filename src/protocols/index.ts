@@ -1,5 +1,6 @@
 import { Account } from "../entities/Account";
 import { User } from "../entities/User";
+import { Transaction } from "../entities/Transaction";
 import { Request } from "express";
 
 export interface IAccountService {
@@ -12,7 +13,7 @@ export interface IUserRequest {
 }
 
 export interface ITokenRequest extends Request {
-  user: { username: string }
+  user: { username: string, id: string }
 }
 
 export interface IUserBalance {
@@ -22,6 +23,16 @@ export interface IUserBalance {
 
 export interface IUserService {
   create(user: IUserRequest): Promise<User>,
-  login(user: IUserRequest): Promise<string | null>
+  login(user: IUserRequest): Promise<string | null>,
   getBalance(username: string): Promise<IUserBalance>
+}
+
+export interface ITransactionRequest {
+  debitedUserId: string,
+  creditedUserUsername: string,
+  value: number
+}
+
+export interface ITransactionService {
+  create(tansaction: ITransactionRequest): Promise<Transaction>
 }
