@@ -1,11 +1,6 @@
-import { Account } from "../entities/Account";
 import { User } from "../entities/User";
 import { Transaction } from "../entities/Transaction";
 import { Request } from "express";
-
-export interface IAccountService {
-  getAll(): Promise<Account[]>
-}
 
 export interface IUserRequest {
   username: string,

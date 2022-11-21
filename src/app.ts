@@ -1,5 +1,6 @@
 import express from "express";
-import accountRouter from "./routes/account.routes";
+import transactionRouter from "./routes/transaction.routes";
+import userRouter from "./routes/user.routes";
 
 class App {
   public app: express.Express;
@@ -16,7 +17,9 @@ class App {
       res.header('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS,PUT,PATCH');
       res.header('Access-Control-Allow-Headers', '*');
 
-      this.app.use(accountRouter);
+      this.app.use(userRouter);
+
+      this.app.use(transactionRouter);
 
       next();
     };
