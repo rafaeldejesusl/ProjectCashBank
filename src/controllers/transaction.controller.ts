@@ -17,4 +17,15 @@ export default class TransactionController {
       return res.status(500).json(error);
     }
   }
+
+  async getCashOutTransaction(req: ITokenRequest, res: Response, next: NextFunction) {
+    try {
+      const { id } = req.user;
+      const transactions = await this.service.getCashOutTransaction(id);
+
+      return res.status(200).json(transactions);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
 }

@@ -37,4 +37,11 @@ export default class TansactionService implements ITransactionService {
 
     return newTransaction;
   }
+
+  async getCashOutTransaction(id: string): Promise<Transaction[]> {
+    const debited = await this.repositoryUser.find({ where: { id: id } });
+    const transactions = await this.repositoryTransaction.find({ where: { debitedAccountId: debited[0].accountId } });
+
+    return transactions;
+  }
 }
