@@ -1,12 +1,12 @@
-import { Router } from "express";
-import UserController from "../controllers/user.controller";
-import { tokenValidate } from "../middlewares/tokenValidate";
-import { userValidate } from "../middlewares/userValidate";
-import { ITokenRequest } from "../protocols";
-import UserService from "../services/user.service";
+import { Router } from 'express';
+import UserController from '../controllers/user.controller';
+import tokenValidate from '../middlewares/tokenValidate';
+import userValidate from '../middlewares/userValidate';
+import { ITokenRequest } from '../protocols';
+import UserService from '../services/user.service';
 
 const userRouter = Router();
-const controller = new UserController( new UserService());
+const controller = new UserController(new UserService());
 
 userRouter.post('/user', userValidate, (req, res, next) => {
   controller.create(req, res, next);

@@ -1,6 +1,6 @@
-import express from "express";
-import transactionRouter from "./routes/transaction.routes";
-import userRouter from "./routes/user.routes";
+import express from 'express';
+import transactionRouter from './routes/transaction.routes';
+import userRouter from './routes/user.routes';
 
 class App {
   public app: express.Express;
@@ -33,4 +33,4 @@ class App {
   }
 }
 
-export { App };
+export default App;

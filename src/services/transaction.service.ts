@@ -1,14 +1,14 @@
-import { Repository } from "typeorm";
-import  connectionSource from "../database";
-import { Account } from "../entities/Account";
-import { User } from "../entities/User";
-import { Transaction } from "../entities/Transaction";
-import { ITransactionRequest, ITransactionService } from "../protocols";
+import { Repository } from 'typeorm';
+import connectionSource from '../database';
+import { Account } from '../entities/Account';
+import { User } from '../entities/User';
+import { Transaction } from '../entities/Transaction';
+import { ITransactionRequest, ITransactionService } from '../protocols';
 
 export default class TansactionService implements ITransactionService {
-  repositoryTransaction: Repository<Transaction>
-  repositoryUser: Repository<User>
-  repositoryAccount: Repository<Account>
+  repositoryTransaction: Repository<Transaction>;
+  repositoryUser: Repository<User>;
+  repositoryAccount: Repository<Account>;
   constructor() {
     this.repositoryTransaction = connectionSource.getRepository(Transaction);
     this.repositoryUser = connectionSource.getRepository(User);
@@ -19,28 +19,30 @@ export default class TansactionService implements ITransactionService {
     const { debitedUserId, creditedUserUsername, value } = transaction;
     const debited = await this.repositoryUser.find({ where: { id: debitedUserId } });
     const credited = await this.repositoryUser.find({ where: { username: creditedUserUsername } });
-    const debitedAccount = await this.repositoryAccount.find({ where: { id: debited[0].accountId } });
-    const creditedAccount = await this.repositoryAccount.find({ where: { id: credited[0].accountId } });
+    const debitedAcc = await this.repositoryAccount.find({ where: { id: debited[0].accountId } });
+    const creditedAcc = await this.repositoryAccount.find({ where: { id: credited[0].accountId } });
 
-    debitedAccount[0].balance = Number(debitedAccount[0].balance) - Number(value);
-    creditedAccount[0].balance = Number(creditedAccount[0].balance) + Number(value);
+    debitedAcc[0].balance = Number(debitedAcc[0].balance) - Number(value);
+    creditedAcc[0].balance = Number(creditedAcc[0].balance) + Number(value);
 
     const newTransaction = this.repositoryTransaction.create({
       debitedAccountId: debited[0].accountId,
       creditedAccountId: credited[0].accountId,
-      value
+      value,
     });
 
-    await this.repositoryAccount.save(debitedAccount[0]);
-    await this.repositoryAccount.save(creditedAccount[0]);
+    await this.repositoryAccount.save(debitedAcc[0]);
+    await this.repositoryAccount.save(creditedAcc[0]);
     await this.repositoryTransaction.save(newTransaction);
 
     return newTransaction;
   }
 
   async getCashOutTransaction(id: string): Promise<Transaction[]> {
-    const debited = await this.repositoryUser.find({ where: { id: id } });
-    const transactions = await this.repositoryTransaction.find({ where: { debitedAccountId: debited[0].accountId } });
+    const debited = await this.repositoryUser.find({ where: { id } });
+    const transactions = await this.repositoryTransaction.find({
+      where: { debitedAccountId: debited[0].accountId },
+    });
 
     return transactions;
   }

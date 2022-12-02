@@ -1,15 +1,15 @@
-import { NextFunction, Request, Response } from "express";
-import { ITokenRequest, IUserService } from "../protocols";
+import { NextFunction, Request, Response } from 'express';
+import { ITokenRequest, IUserService } from '../protocols';
 
 export default class UserController {
   constructor(private service: IUserService) {
     this.service = service;
   }
 
-  async create(req: Request, res: Response, next: NextFunction) {
+  async create(req: Request, res: Response, _next: NextFunction) {
     try {
       const { username, password } = req.body;
-      const user = await this.service.create({ username, password });
+      await this.service.create({ username, password });
 
       return res.status(201).end();
     } catch (error) {
@@ -17,7 +17,7 @@ export default class UserController {
     }
   }
 
-  async login(req: Request, res: Response, next: NextFunction) {
+  async login(req: Request, res: Response, _next: NextFunction) {
     try {
       const { username, password } = req.body;
       const token = await this.service.login({ username, password });
@@ -32,7 +32,7 @@ export default class UserController {
     }
   }
 
-  async getBalance(req: ITokenRequest, res: Response, next: NextFunction) {
+  async getBalance(req: ITokenRequest, res: Response, _next: NextFunction) {
     try {
       const userToken = req.user.username;
       const userBalance = await this.service.getBalance(userToken);

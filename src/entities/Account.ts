@@ -1,7 +1,7 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
-import { v4 as uuid } from "uuid";
+import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { v4 as uuid } from 'uuid';
 
-@Entity("Accounts")
+@Entity('Accounts')
 export class Account {
   @PrimaryColumn()
   id: string;

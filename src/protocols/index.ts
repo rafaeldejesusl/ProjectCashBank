@@ -1,6 +1,6 @@
-import { User } from "../entities/User";
-import { Transaction } from "../entities/Transaction";
-import { Request } from "express";
+import { Request } from 'express';
+import { User } from '../entities/User';
+import { Transaction } from '../entities/Transaction';
 
 export interface IUserRequest {
   username: string,

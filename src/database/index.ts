@@ -1,6 +1,6 @@
 import { DataSource } from "typeorm";
 
-export const connectionSource = new DataSource({
+const connectionSource = new DataSource({
   migrationsTableName: 'migrations',
   type: 'postgres',
   host: 'postgres',
