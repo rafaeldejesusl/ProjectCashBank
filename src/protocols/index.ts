@@ -32,4 +32,5 @@ export interface ITransactionService {
   create(tansaction: ITransactionRequest): Promise<Transaction>
   getCashOutTransaction(id: string): Promise<Transaction[]>
   getCashInTransaction(id: string): Promise<Transaction[]>
+  getAllTransaction(id: string): Promise<Transaction[]>
 }

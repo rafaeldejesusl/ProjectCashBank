@@ -55,4 +55,23 @@ export default class TansactionService implements ITransactionService {
 
     return transactions;
   }
+
+  async getAllTransaction(id: string): Promise<Transaction[]> {
+    const user = await this.repositoryUser.find({ where: { id } });
+    const outTransaction = await this.repositoryTransaction.find({
+      where: { debitedAccountId: user[0].accountId },
+    });
+    const inTransaction = await this.repositoryTransaction.find({
+      where: { creditedAccountId: user[0].accountId },
+    });
+
+    const allTransactions = [...outTransaction, ...inTransaction];
+    const transactions = allTransactions.sort((a, b) => {
+      if (a.createdAt < b.createdAt) return -1;
+      if (a.createdAt > b.createdAt) return 1;
+      return 0;
+    });
+
+    return transactions;
+  }
 }

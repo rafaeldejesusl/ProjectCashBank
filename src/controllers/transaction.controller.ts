@@ -39,4 +39,15 @@ export default class TransactionController {
       return res.status(500).json(error);
     }
   }
+
+  async getAllTransaction(req: ITokenRequest, res: Response, _next: NextFunction) {
+    try {
+      const { id } = req.user;
+      const transactions = await this.service.getAllTransaction(id);
+
+      return res.status(200).json(transactions);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
 }

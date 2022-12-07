@@ -17,6 +17,10 @@ transactionRouter.post(
   },
 );
 
+transactionRouter.get('/transaction', tokenValidate, (req: ITokenRequest, res, next) => {
+  controller.getAllTransaction(req, res, next);
+});
+
 transactionRouter.get('/transaction/cashout', tokenValidate, (req: ITokenRequest, res, next) => {
   controller.getCashOutTransaction(req, res, next);
 });
