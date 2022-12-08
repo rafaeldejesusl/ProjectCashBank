@@ -17,7 +17,7 @@ async function transactionValidate(req: ITokenRequest, res: Response, next: Next
   const debited = await repositoryUser.find({ where: { id: debitedUserId } });
   const credited = await repositoryUser.find({ where: { username: creditedUserUsername } });
 
-  if (debitedUserId === credited[0].id || debited.length === 0 || credited.length === 0) {
+  if (debited.length < 1 || credited.length < 1 || debitedUserId === credited[0].id) {
     return res.status(400).json({ message: 'Invalid transaction' });
   }
 
