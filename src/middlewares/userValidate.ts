@@ -2,9 +2,10 @@ import { NextFunction, Request, Response } from 'express';
 import connectionSource from '../database';
 import { User } from '../entities/User';
 
+export const repositoryUser = connectionSource.getRepository(User);
+
 export default async function userValidate(req: Request, res: Response, next: NextFunction) {
   const { username, password } = req.body;
-  const repositoryUser = connectionSource.getRepository(User);
 
   const checkUser = await repositoryUser.find({
     where: { username },

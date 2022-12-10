@@ -6,7 +6,8 @@ import { ITokenRequest } from '../protocols';
 import UserService from '../services/user.service';
 
 const userRouter = Router();
-const controller = new UserController(new UserService());
+const service = new UserService();
+const controller = new UserController(service);
 
 userRouter.post('/user', userValidate, (req, res, next) => {
   controller.create(req, res, next);
@@ -21,3 +22,5 @@ userRouter.post('/login', (req, res, next) => {
 });
 
 export default userRouter;
+
+export { service };
