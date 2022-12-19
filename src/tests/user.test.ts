@@ -2,6 +2,7 @@ import chai from 'chai';
 import { before } from 'mocha';
 import sinon from 'sinon';
 import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
 import chaiHttp from 'chai-http';
 
 import { app } from '../app';
@@ -96,5 +97,26 @@ describe('Model User', () => {
       .send({ username: userMock.username, password: 'batatinha123' });
     expect(response.status).to.be.equal(400);
     expect(response.body.message).to.be.equal('Invalid password');
+  });
+});
+
+describe('Model User', () => {
+  before(() => {
+    sinon.stub(service.repositoryUser, 'find').resolves([userMock]);
+    sinon.stub(bcrypt, 'compareSync').returns(true);
+    sinon.stub(jwt, 'sign').resolves('token');
+  });
+
+  after(() => {
+    (service.repositoryUser.find as sinon.SinonStub).restore();
+    (bcrypt.compareSync as sinon.SinonStub).restore();
+    (jwt.sign as sinon.SinonStub).restore();
+  });
+
+  it('metodo post /login', async () => {
+    const response = await chai.request(app).post('/login')
+      .send({ username: userMock.username, password: userMock.password });
+    expect(response.status).to.be.equal(200);
+    expect(response.body).to.be.equal('token');
   });
 });
