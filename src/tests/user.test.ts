@@ -93,4 +93,11 @@ describe('Model User', () => {
     expect(response.status).to.be.equal(400);
     expect(response.body.message).to.be.equal('Invalid password');
   });
+
+  it('metodo post /user quando a senha não tiver números', async () => {
+    const response = await chai.request(app).post('/user')
+      .send({ username: userMock.username, password: 'Batatinha' });
+    expect(response.status).to.be.equal(400);
+    expect(response.body.message).to.be.equal('Invalid password');
+  });
 });
