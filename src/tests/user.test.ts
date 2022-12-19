@@ -60,3 +60,20 @@ describe('Model User', () => {
     expect(response.body.message).to.be.equal('Invalid username');
   });
 });
+
+describe('Model User', () => {
+  before(() => {
+    sinon.stub(repositoryUser, 'find').resolves([]);
+  });
+
+  after(() => {
+    (repositoryUser.find as sinon.SinonStub).restore();
+  });
+
+  it('metodo post /user quando o usuário não tiver tamanho suficiente', async () => {
+    const response = await chai.request(app).post('/user')
+      .send({ username: 'ze', password: userMock.password });
+    expect(response.status).to.be.equal(400);
+    expect(response.body.message).to.be.equal('Invalid username');
+  });
+});
