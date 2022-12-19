@@ -41,5 +41,22 @@ describe('Model User', () => {
     const response = await chai.request(app).post('/user')
       .send({ username: userMock.username, password: userMock.password });
     expect(response.status).to.be.equal(201);
-  })
-})
+  });
+});
+
+describe('Model User', () => {
+  before(() => {
+    sinon.stub(repositoryUser, 'find').resolves([ userMock ]);
+  });
+
+  after(() => {
+    (repositoryUser.find as sinon.SinonStub).restore();
+  });
+
+  it('metodo post /user quando já existir um usuário', async () => {
+    const response = await chai.request(app).post('/user')
+      .send({ username: userMock.username, password: userMock.password });
+    expect(response.status).to.be.equal(400);
+    expect(response.body.message).to.be.equal('Invalid username');
+  });
+});
