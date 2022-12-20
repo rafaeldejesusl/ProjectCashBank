@@ -139,3 +139,22 @@ describe('Model User', () => {
     expect(response.body.message).to.be.equal('Invalid username or password');
   });
 });
+
+describe('Model User', () => {
+  before(() => {
+    sinon.stub(service.repositoryUser, 'find').resolves([userMock]);
+    sinon.stub(bcrypt, 'compareSync').returns(false);
+  });
+
+  after(() => {
+    (service.repositoryUser.find as sinon.SinonStub).restore();
+    (bcrypt.compareSync as sinon.SinonStub).restore();
+  });
+
+  it('metodo post /login quando a senha estiver incorreta', async () => {
+    const response = await chai.request(app).post('/login')
+      .send({ username: userMock.username, password: userMock.password });
+    expect(response.status).to.be.equal(400);
+    expect(response.body.message).to.be.equal('Invalid username or password');
+  });
+});
