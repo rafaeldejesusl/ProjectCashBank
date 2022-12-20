@@ -158,3 +158,22 @@ describe('Model User', () => {
     expect(response.body.message).to.be.equal('Invalid username or password');
   });
 });
+
+describe('Model User', () => {
+  before(() => {
+    sinon.stub(jwt, 'verify').resolves({ username: userMock.username, id: userMock.id });
+    sinon.stub(service.repositoryUser, 'find').resolves([userMock]);
+    sinon.stub(service.repositoryAccount, 'find').resolves([userMock.account]);
+  });
+
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+    (service.repositoryUser.find as sinon.SinonStub).restore();
+    (service.repositoryAccount.find as sinon.SinonStub).restore();
+  });
+
+  it('metodo get /user', async () => {
+    const response = await chai.request(app).get('/user').set('authorization', 'token');
+    expect(response.status).to.be.equal(200);
+  });
+});
