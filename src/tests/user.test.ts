@@ -120,3 +120,22 @@ describe('Model User', () => {
     expect(response.body).to.be.equal('token');
   });
 });
+
+describe('Model User', () => {
+  before(() => {
+    sinon.stub(service.repositoryUser, 'find').resolves([]);
+    sinon.stub(bcrypt, 'compareSync').returns(true);
+  });
+
+  after(() => {
+    (service.repositoryUser.find as sinon.SinonStub).restore();
+    (bcrypt.compareSync as sinon.SinonStub).restore();
+  });
+
+  it('metodo post /login quando não existir o usuário', async () => {
+    const response = await chai.request(app).post('/login')
+      .send({ username: userMock.username, password: userMock.password });
+    expect(response.status).to.be.equal(400);
+    expect(response.body.message).to.be.equal('Invalid username or password');
+  });
+});
