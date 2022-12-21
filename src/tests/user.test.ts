@@ -177,3 +177,19 @@ describe('Model User', () => {
     expect(response.status).to.be.equal(200);
   });
 });
+
+describe('Model User', () => {
+  before(() => {
+    sinon.stub(jwt, 'verify').resolves({ username: userMock.username, id: userMock.id });
+  });
+
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+  });
+
+  it('metodo get /user sem o token', async () => {
+    const response = await chai.request(app).get('/user');
+    expect(response.status).to.be.equal(401);
+    expect(response.body.message).to.be.equal('Token is required');
+  });
+});
