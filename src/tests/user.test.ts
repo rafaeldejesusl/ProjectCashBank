@@ -193,3 +193,19 @@ describe('Model User', () => {
     expect(response.body.message).to.be.equal('Token is required');
   });
 });
+
+describe('Model User', () => {
+  before(() => {
+    sinon.stub(jwt, 'verify').throws();
+  });
+
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+  });
+
+  it('metodo get /user com token inválido', async () => {
+    const response = await chai.request(app).get('/user').set('authorization', 'token');
+    expect(response.status).to.be.equal(401);
+    expect(response.body.message).to.be.equal('Invalid token');
+  });
+});
