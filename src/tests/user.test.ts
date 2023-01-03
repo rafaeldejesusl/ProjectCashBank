@@ -175,6 +175,7 @@ describe('Model User', () => {
   it('metodo get /user', async () => {
     const response = await chai.request(app).get('/user').set('authorization', 'token');
     expect(response.status).to.be.equal(200);
+    expect(response.body.balance).to.be.equal(100.00);
   });
 });
 
