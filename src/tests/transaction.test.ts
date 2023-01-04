@@ -80,3 +80,24 @@ describe('Model Transaction', () => {
     expect(response.body.message).to.be.equal('Invalid transaction');
   });
 });
+
+describe('Model Transaction', () => {
+  before(() => {
+    sinon.stub(jwt, 'verify').resolves({ username: userMock.username, id: userMock.id });
+    sinon.stub(repositoryUser, 'find').resolves([userMock]);
+    sinon.stub(repositoryAccount, 'find').resolves([userMock.account]);
+  });
+
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+    (repositoryUser.find as sinon.SinonStub).restore();
+    (repositoryAccount.find as sinon.SinonStub).restore();
+  });
+
+  it('metodo post /transaction com valor inválido', async () => {
+    const response = await chai.request(app).post('/transaction').set('authorization', 'token')
+      .send({ creditedUserUsername: userMock.username, value: 1000.00 });
+    expect(response.status).to.be.equal(400);
+    expect(response.body.message).to.be.equal('Transaction value bigger than balance');
+  });
+});
