@@ -6,7 +6,8 @@ import { ITokenRequest } from '../protocols';
 import TransactionService from '../services/transaction.service';
 
 const transactionRouter = Router();
-const controller = new TransactionController(new TransactionService());
+const service = new TransactionService();
+const controller = new TransactionController(service);
 
 transactionRouter.post(
   '/transaction',
@@ -30,3 +31,5 @@ transactionRouter.get('/transaction/cashin', tokenValidate, (req: ITokenRequest,
 });
 
 export default transactionRouter;
+
+export { service };

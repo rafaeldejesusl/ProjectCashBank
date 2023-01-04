@@ -4,11 +4,12 @@ import { ITokenRequest } from '../protocols';
 import { Account } from '../entities/Account';
 import { User } from '../entities/User';
 
+export const repositoryUser = connectionSource.getRepository(User);
+export const repositoryAccount = connectionSource.getRepository(Account);
+
 async function transactionValidate(req: ITokenRequest, res: Response, next: NextFunction) {
   const { creditedUserUsername, value } = req.body;
   const debitedUserId = req.user.id;
-  const repositoryUser = connectionSource.getRepository(User);
-  const repositoryAccount = connectionSource.getRepository(Account);
 
   if (!creditedUserUsername || !value) {
     return res.status(400).json({ message: 'Required creditedAccountId and value' });
