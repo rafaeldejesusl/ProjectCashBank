@@ -76,6 +76,14 @@ describe('Model Transaction', () => {
     expect(response.body.message).to.be.equal('Required creditedAccountId and value');
   });
 
+  it('metodo post /transaction sem informar valor', async () => {
+    const response = await chai.request(app).post('/transaction').set('authorization', 'token')
+      .send({ creditedUserUsername: userMock.username });
+    expect(response.status).to.be.equal(400);
+    expect(response.body.message).to.be.equal('Required creditedAccountId and value');
+  });
+});
+
 describe('Model Transaction', () => {
   before(() => {
     sinon.stub(jwt, 'verify').resolves({ username: userMock.username, id: userMock.id });
