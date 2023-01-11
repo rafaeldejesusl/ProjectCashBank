@@ -148,3 +148,26 @@ describe('Model Transaction', () => {
     expect(response.body[0].value).to.be.equal(transactionMock.value);
   });
 });
+
+describe('Model Transaction', () => {
+  before(() => {
+    sinon.stub(jwt, 'verify').resolves({ username: userMock.username, id: userMock.id });
+    sinon.stub(service.repositoryUser, 'find').resolves([userMock]);
+    sinon.stub(service.repositoryTransaction, 'find').resolves([transactionMock]);
+  });
+
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+    (service.repositoryUser.find as sinon.SinonStub).restore();
+    (service.repositoryTransaction.find as sinon.SinonStub).restore();
+  });
+
+  it('metodo get /transaction/cashin', async () => {
+    const response = await chai.request(app).get('/transaction/cashin').set('authorization', 'token');
+    expect(response.status).to.be.equal(200);
+    expect(response.body[0].id).to.be.equal(transactionMock.id);
+    expect(response.body[0].debitedAccountId).to.be.equal(transactionMock.debitedAccountId);
+    expect(response.body[0].creditedAccountId).to.be.equal(transactionMock.creditedAccountId);
+    expect(response.body[0].value).to.be.equal(transactionMock.value);
+  });
+});
