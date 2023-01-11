@@ -30,35 +30,31 @@ chai.use(chaiHttp);
 
 const { expect } = chai;
 
-// describe('Model Transaction', () => {
-//   before(() => {
-//     sinon.stub(jwt, 'verify').resolves({ username: userMock.username, id: userMock.id });
-//     sinon.stub(repositoryUser, 'find').resolves([userMock]);
-//     sinon.stub(repositoryAccount, 'find').resolves([userMock.account]);
-//     sinon.stub(service.repositoryUser, 'find').resolves([userMock]);
-//     sinon.stub(service.repositoryAccount, 'find').resolves([userMock.account]);
-//     sinon.stub(service.repositoryTransaction, 'create').returns(transactionMock);
-//     sinon.stub(service.repositoryAccount, 'save').resolves();
-//     sinon.stub(service.repositoryTransaction, 'save').resolves();
-//   });
+describe('Model Transaction', () => {
+  before(() => {
+    sinon.stub(jwt, 'verify').resolves({ username: userMock.username, id: userMock.id });
+    sinon.stub(repositoryUser, 'find').resolves([userMock]);
+    sinon.stub(repositoryAccount, 'find').resolves([userMock.account]);
+    sinon.stub(service.repositoryTransaction, 'create').returns(transactionMock);
+    sinon.stub(service.repositoryAccount, 'save').resolves();
+    sinon.stub(service.repositoryTransaction, 'save').resolves();
+  });
 
-//   after(() => {
-//     (jwt.verify as sinon.SinonStub).restore();
-//     (repositoryUser.find as sinon.SinonStub).restore();
-//     (repositoryAccount.find as sinon.SinonStub).restore();
-//     (service.repositoryUser.find as sinon.SinonStub).restore();
-//     (service.repositoryAccount.find as sinon.SinonStub).restore();
-//     (service.repositoryTransaction.create as sinon.SinonStub).restore();
-//     (service.repositoryAccount.save as sinon.SinonStub).restore();
-//     (service.repositoryTransaction.save as sinon.SinonStub).restore();
-//   });
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+    (repositoryUser.find as sinon.SinonStub).restore();
+    (repositoryAccount.find as sinon.SinonStub).restore();
+    (service.repositoryTransaction.create as sinon.SinonStub).restore();
+    (service.repositoryAccount.save as sinon.SinonStub).restore();
+    (service.repositoryTransaction.save as sinon.SinonStub).restore();
+  });
 
-//   it('metodo post /transaction', async () => {
-//     const response = await chai.request(app).post('/transaction').set('authorization', 'token')
-//       .send({ creditedUserUsername: userMock.username, value: transactionMock.value });
-//     expect(response.status).to.be.equal(201);
-//   });
-// });
+  it('metodo post /transaction', async () => {
+    const response = await chai.request(app).post('/transaction').set('authorization', 'token')
+      .send({ creditedUserUsername: userMock.username, value: transactionMock.value });
+    expect(response.status).to.be.equal(201);
+  });
+});
 
 describe('Model Transaction', () => {
   before(() => {
