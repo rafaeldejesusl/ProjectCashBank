@@ -74,4 +74,11 @@ export default class TansactionService implements ITransactionService {
 
     return transactions;
   }
+
+  async getByDate(id: string, date: Date): Promise<Transaction[]> {
+    const allTransactions = await this.getAllTransaction(id);
+    const transactions = allTransactions
+      .filter((e) => e.createdAt.toDateString() === date.toDateString());
+    return transactions;
+  }
 }
