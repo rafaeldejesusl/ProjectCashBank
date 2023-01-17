@@ -50,4 +50,18 @@ export default class TransactionController {
       return res.status(500).json(error);
     }
   }
+
+  async getByDate(req: ITokenRequest, res: Response, _next: NextFunction) {
+    try {
+      const { id } = req.user;
+      const { dateString } = req.body;
+      const date = new Date(dateString);
+
+      const transactions = await this.service.getByDate(id, date);
+
+      return res.status(200).json(transactions);
+    } catch (error) {
+      return res.status(500).json(error);
+    }
+  }
 }
