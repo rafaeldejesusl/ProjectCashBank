@@ -30,6 +30,10 @@ transactionRouter.get('/transaction/cashin', tokenValidate, (req: ITokenRequest,
   controller.getCashInTransaction(req, res, next);
 });
 
+transactionRouter.post('/transaction/date', tokenValidate, (req: ITokenRequest, res, next) => {
+  controller.getByDate(req, res, next);
+});
+
 export default transactionRouter;
 
 export { service };
