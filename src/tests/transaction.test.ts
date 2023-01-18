@@ -21,7 +21,7 @@ const transactionMock = {
   debitedAccountId: 'debited',
   creditedAccountId: 'credited',
   value: 25.00,
-  createdAt: new Date(12, 12, 12),
+  createdAt: new Date('2012-12-12'),
   debitedAccount: { id: 'test', username: 'user', password: 'Password123', accountId: 'account', balance: 100.00 },
   creditedAccount:  { id: 'test', username: 'user', password: 'Password123', accountId: 'account', balance: 100.00 },
 };
@@ -184,6 +184,40 @@ describe('Model Transaction', () => {
   it('metodo get /transaction', async () => {
     const response = await chai.request(app).get('/transaction').set('authorization', 'token');
     expect(response.status).to.be.equal(200);
+    expect(response.body[0].id).to.be.equal(transactionMock.id);
+    expect(response.body[0].debitedAccountId).to.be.equal(transactionMock.debitedAccountId);
+    expect(response.body[0].creditedAccountId).to.be.equal(transactionMock.creditedAccountId);
+    expect(response.body[0].value).to.be.equal(transactionMock.value);
+  });
+});
+
+describe('Model Transaction', () => {
+  before(() => {
+    sinon.stub(jwt, 'verify').resolves({ username: userMock.username, id: userMock.id });
+    sinon.stub(service.repositoryUser, 'find').resolves([userMock]);
+    const newTransaction = {
+      id: 'test',
+      debitedAccountId: 'debited',
+      creditedAccountId: 'credited',
+      value: 25.00,
+      createdAt: new Date('2012-12-11'),
+      debitedAccount: { id: 'test', username: 'user', password: 'Password123', accountId: 'account', balance: 100.00 },
+      creditedAccount:  { id: 'test', username: 'user', password: 'Password123', accountId: 'account', balance: 100.00 },
+    };
+    sinon.stub(service.repositoryTransaction, 'find').onFirstCall().resolves([newTransaction]).onSecondCall().resolves([transactionMock]);
+  });
+
+  after(() => {
+    (jwt.verify as sinon.SinonStub).restore();
+    (service.repositoryUser.find as sinon.SinonStub).restore();
+    (service.repositoryTransaction.find as sinon.SinonStub).restore();
+  });
+
+  it('metodo post /transaction/date', async () => {
+    const response = await chai.request(app).post('/transaction/date').set('authorization', 'token')
+      .send({ dateString: '2012-12-12' });
+    expect(response.status).to.be.equal(200);
+    expect(response.body.length).to.be.equal(1);
     expect(response.body[0].id).to.be.equal(transactionMock.id);
     expect(response.body[0].debitedAccountId).to.be.equal(transactionMock.debitedAccountId);
     expect(response.body[0].creditedAccountId).to.be.equal(transactionMock.creditedAccountId);
