@@ -1,6 +1,6 @@
-# Ng.cash
+# ProjectCashBank
 
-Esse repositório contém uma aplicação desenvolvida para o projeto da Ng.cash. É formado por um banco de dados Postgres, um back end desenvolvido em TypeScript com Express e manipulando o banco através da ORM TypeORM.
+Esse repositório contém uma aplicação desenvolvida para ser a API de um banco digital. É formado por um banco de dados Postgres, um back end desenvolvido em TypeScript com Express e manipulando o banco através da ORM TypeORM.
 
 ---
 
@@ -29,7 +29,7 @@ Esse repositório contém uma aplicação desenvolvida para o projeto da Ng.cash
 Inicialmente, abra o terminal e cole o seguinte código para clonar o repositório em sua máquina:
 
 ```
-git clone git@github.com:rafaeldejesusl/ng.cash.git
+git clone git@github.com:rafaeldejesusl/ProjectCashBank.git
 ```
 
 Após clonado, entre na pasta do projeto. Na pasta raiz do projeto, instale as dependências
