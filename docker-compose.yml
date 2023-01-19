@@ -22,4 +22,4 @@ services:
       - 5432:5432
     environment:
       POSTGRES_PASSWORD: mysecretpassword
-      POSTGRES_DB: ngcash_db
+      POSTGRES_DB: cash_db

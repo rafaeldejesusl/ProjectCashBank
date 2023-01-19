@@ -7,7 +7,7 @@ export const connectionSource = new DataSource({
   port: 5432,
   username: 'postgres',
   password: 'mysecretpassword',
-  database: 'ngcash_db',
+  database: 'cash_db',
   logging: false,
   synchronize: false,
   name: 'default',
