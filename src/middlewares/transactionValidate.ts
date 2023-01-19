@@ -1,15 +1,14 @@
-import { NextFunction, Response } from 'express';
+import { NextFunction, Response, Request } from 'express';
 import connectionSource from '../database';
-import { ITokenRequest } from '../protocols';
 import { Account } from '../entities/Account';
 import { User } from '../entities/User';
 
 export const repositoryUser = connectionSource.getRepository(User);
 export const repositoryAccount = connectionSource.getRepository(Account);
 
-async function transactionValidate(req: ITokenRequest, res: Response, next: NextFunction) {
+async function transactionValidate(req: Request, res: Response, next: NextFunction) {
   const { creditedUserUsername, value } = req.body;
-  const debitedUserId = req.user.id;
+  const debitedUserId = res.locals.user.id;
 
   if (!creditedUserUsername || !value) {
     return res.status(400).json({ message: 'Required creditedAccountId and value' });

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { ITokenRequest, IUserService } from '../protocols';
+import { IUserService } from '../protocols';
 
 export default class UserController {
   constructor(private service: IUserService) {
@@ -32,9 +32,9 @@ export default class UserController {
     }
   }
 
-  async getBalance(req: ITokenRequest, res: Response, _next: NextFunction) {
+  async getBalance(req: Request, res: Response, _next: NextFunction) {
     try {
-      const userToken = req.user.username;
+      const userToken = res.locals.user.username;
       const userBalance = await this.service.getBalance(userToken);
 
       return res.status(200).json(userBalance);

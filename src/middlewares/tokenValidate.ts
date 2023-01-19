@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/dot-notation */
 import { NextFunction, Request, Response } from 'express';
 import * as jwt from 'jsonwebtoken';
 
@@ -11,7 +10,7 @@ export default async function tokenValidate(req: Request, res: Response, next: N
 
   try {
     const payload = jwt.verify(authorization, secret);
-    req['user'] = payload;
+    res.locals.user = payload;
 
     return next();
   } catch (error) {
