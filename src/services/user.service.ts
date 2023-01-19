@@ -5,6 +5,7 @@ import connectionSource from '../database';
 import { Account } from '../entities/Account';
 import { User } from '../entities/User';
 import { IUserService, IUserRequest, IUserBalance } from '../protocols';
+import 'dotenv/config';
 
 const secret = process.env.JWT_SECRET || 'jwt_secret';
 const jwtConfig = {
