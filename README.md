@@ -22,6 +22,8 @@ Esse repositório contém uma aplicação desenvolvida para ser a API de um banc
 
 * bcryptjs
 
+* Mocha/Chai
+
 ---
 
 ## Instalação
@@ -60,7 +62,7 @@ http://localhost:3000/
 
 ## Banco de Dados
 
-O banco de dados roda num contâiner Postgres, e a interação com o backend é realizada através da ORM TypeORM. O nome do banco é ngcash_db, e contém três tabelas:
+O banco de dados roda num contâiner Postgres, e a interação com o backend é realizada através da ORM TypeORM. O nome do banco é cash_db, e contém três tabelas:
 
 * "Accounts" que contém as informações das contas registradas;
 
@@ -72,15 +74,33 @@ O banco de dados roda num contâiner Postgres, e a interação com o backend é 
 
 ## Back End
 
-O back end roda num contâiner criado a partir do Dockerfile na pasta "backend", e realiza as operações das tabelas do banco de dados através do Sequelize. As rotas disponíveis são:
+O back end roda num contâiner criado a partir do Dockerfile na pasta "backend", e realiza as operações das tabelas do banco de dados através do TypeORM. As rotas disponíveis são:
 
 * Método POST `/login`, verifica o usuário e a senha e retorna o token;
 
-* Método POST `/user`, cria um novo usuário através do usuário e da senha;
+* Método POST `/user`, cria um novo usuário através do usuário (username) e da senha(password);
 
 * Método GET `/user`, retorna o saldo do usuário autenticado;
 
-* Método POST `/transaction`, cria uma nova transação através do valor e da conta que irá receber;
+* Método POST `/transaction`, cria uma nova transação através do valor (value) e da conta que irá receber (creditedUserUsername);
+
+* Método GET `/transaction/cashout`, retorna a lista de transações feitas pelo usuário autenticado;
+
+* Método GET `/transaction/cashin`, retorna a lista de transações recebidas pelo usuário autenticado;
+
+* Método GET `/transaction`, retorna a lista de todas as transações do usuário autenticado;
+
+* Método POST `/transaction/date`, através da data fornecida no corpo da requisição (dateString), retorna a lista de todas as transações do usuário autenticado naquela data;
+
+---
+
+## Testes
+
+Para verificar a funcionalidade da aplicação, foram realizados testes de integração utilizando Mocha/Chai. Os testes cobrem aproximadamente 94% das linhas de código, e podem ser executados através do seguinte comando:
+
+```
+npm test
+```
 
 ---
 
